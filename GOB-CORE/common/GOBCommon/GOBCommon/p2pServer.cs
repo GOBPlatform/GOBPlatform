@@ -12,8 +12,8 @@ namespace GOBCommon
         /// </summary>
         class P2PServer
         {
-            //network   p2pnet.P2P
-            //msgRouter *utils.MessageRouter
+            P2P network;
+            MessageRouter msgRouter;
             //pid       *evtActor.PID
             //blockSync *BlockSyncMgr
             //ledger    *ledger.Ledger
@@ -588,14 +588,14 @@ namespace GOBCommon
         #region p2pserver/message/types/address.go
         class Addr
         {
-            NodeAddrs[] comm.PeerAddr
+            //NodeAddrs[] comm.PeerAddr
         }
         #endregion
 
         #region p2pserver/message/types/block_header.go
         class BlkHeader
         {
-            BlkHdr[]*ct.Header
+            //BlkHdr[]*ct.Header
         }
         #endregion
 
@@ -751,7 +751,7 @@ namespace GOBCommon
         }
         class Version
         {
-            P VersionPayload
+            //P VersionPayload
         }
         #endregion
 
