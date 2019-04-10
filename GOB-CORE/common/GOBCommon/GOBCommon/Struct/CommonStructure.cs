@@ -1,13 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 /// <summary>
 /// common
 /// </summary>
 namespace GOBCommon
 {
-    
+    public class LimiteWriter
+    {
+        private UInt64 count;
+        private UInt64 max;
+        private StreamWriter writer;
+
+        public ulong Count { get => count; set => count = value; }
+        public ulong Max { get => max; set => max = value; }
+        public StreamWriter Writer { get => writer; set => writer = value; }
+    }
+
+    public class ZeroCopySource
+    {
+        private byte[] s;
+        private UInt64 off;
+
+        public byte[] S { get => s; set => s = value; }
+        public ulong Off { get => off; set => off = value; }
+    }
 }
 
 /// <summary>
@@ -313,6 +332,12 @@ namespace GOBLog
 {
     public class Logger
     {
+        private int level;
+        private Logger _logger;
+        private FileInfo logFile;
 
+        public int Level { get => level; set => level = value; }
+        public Logger logger { get => _logger; set => _logger = value; }
+        public FileInfo LogFile { get => logFile; set => logFile = value; }
     }
 }
