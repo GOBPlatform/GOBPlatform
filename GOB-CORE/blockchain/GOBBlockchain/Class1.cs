@@ -4,5 +4,6 @@ namespace GOBBlockchain
 {
     public class Class1
     {
+        //cVal
     }
 }
