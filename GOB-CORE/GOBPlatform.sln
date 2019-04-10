@@ -5,6 +5,20 @@ VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GOBCmd", "cmd\GOBCmd\GOBCmd.csproj", "{BCB9AD05-C111-436B-B688-215929C1A04C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GOBBlockchain", "blockchain\GOBBlockchain\GOBBlockchain.csproj", "{FC19158D-8FA2-4912-A846-885772C204F8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GOBCommon", "common\GOBCommon\GOBCommon\GOBCommon.csproj", "{A3EDA0FB-6091-4DA3-90E8-FBAABF03EC8E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GOBConsensus", "consensus\GOBConsensus\GOBConsensus\GOBConsensus.csproj", "{006F17D3-9601-4174-895C-879DD59B90D1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GOBCrypto", "crypto\GOBCrypto\GOBCrypto\GOBCrypto.csproj", "{B6358770-81B0-4AC4-9E57-2A2CBAA2E37C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GOBMempool", "mempool\GOBMempool\GOBMempool\GOBMempool.csproj", "{BF422024-1A10-47A1-98DA-0426E4EC92F6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GOBNetworks", "networks\GOBNetworks\GOBNetworks\GOBNetworks.csproj", "{692D5436-798E-4053-81CD-76A4C5C52D4C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GOBNode", "node\GOBNode\GOBNode\GOBNode.csproj", "{3D0CF438-EB9E-4DA5-AD49-BF44148CB002}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +29,34 @@ Global
 		{BCB9AD05-C111-436B-B688-215929C1A04C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCB9AD05-C111-436B-B688-215929C1A04C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCB9AD05-C111-436B-B688-215929C1A04C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC19158D-8FA2-4912-A846-885772C204F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC19158D-8FA2-4912-A846-885772C204F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC19158D-8FA2-4912-A846-885772C204F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC19158D-8FA2-4912-A846-885772C204F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3EDA0FB-6091-4DA3-90E8-FBAABF03EC8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3EDA0FB-6091-4DA3-90E8-FBAABF03EC8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3EDA0FB-6091-4DA3-90E8-FBAABF03EC8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3EDA0FB-6091-4DA3-90E8-FBAABF03EC8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{006F17D3-9601-4174-895C-879DD59B90D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{006F17D3-9601-4174-895C-879DD59B90D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{006F17D3-9601-4174-895C-879DD59B90D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{006F17D3-9601-4174-895C-879DD59B90D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6358770-81B0-4AC4-9E57-2A2CBAA2E37C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6358770-81B0-4AC4-9E57-2A2CBAA2E37C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6358770-81B0-4AC4-9E57-2A2CBAA2E37C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6358770-81B0-4AC4-9E57-2A2CBAA2E37C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF422024-1A10-47A1-98DA-0426E4EC92F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF422024-1A10-47A1-98DA-0426E4EC92F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF422024-1A10-47A1-98DA-0426E4EC92F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF422024-1A10-47A1-98DA-0426E4EC92F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{692D5436-798E-4053-81CD-76A4C5C52D4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{692D5436-798E-4053-81CD-76A4C5C52D4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{692D5436-798E-4053-81CD-76A4C5C52D4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{692D5436-798E-4053-81CD-76A4C5C52D4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D0CF438-EB9E-4DA5-AD49-BF44148CB002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D0CF438-EB9E-4DA5-AD49-BF44148CB002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D0CF438-EB9E-4DA5-AD49-BF44148CB002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D0CF438-EB9E-4DA5-AD49-BF44148CB002}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
