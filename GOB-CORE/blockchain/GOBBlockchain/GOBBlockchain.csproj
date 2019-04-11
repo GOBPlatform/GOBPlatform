@@ -4,9 +4,4 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="errors\" />
-    <Folder Include="events\" />
-  </ItemGroup>
-
 </Project>
