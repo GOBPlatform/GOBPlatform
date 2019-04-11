@@ -688,24 +688,27 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Gob_New\\.nuget\\packages\\": {},
+    "C:\\Users\\minso\\.nuget\\packages\\": {},
+    "C:\\ProgramData\\Xamarin\\NuGet\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Project\\GOBPlatform\\GOB-CORE\\blockchain\\GOBBlockchain\\GOBBlockchain.csproj",
+      "projectUniqueName": "C:\\Users\\minso\\Source\\Repos\\GOBPlatform\\GOBPlatform\\GOB-CORE\\blockchain\\GOBBlockchain\\GOBBlockchain.csproj",
       "projectName": "GOBBlockchain",
-      "projectPath": "D:\\Project\\GOBPlatform\\GOB-CORE\\blockchain\\GOBBlockchain\\GOBBlockchain.csproj",
-      "packagesPath": "C:\\Users\\Gob_New\\.nuget\\packages\\",
-      "outputPath": "D:\\Project\\GOBPlatform\\GOB-CORE\\blockchain\\GOBBlockchain\\obj\\",
+      "projectPath": "C:\\Users\\minso\\Source\\Repos\\GOBPlatform\\GOBPlatform\\GOB-CORE\\blockchain\\GOBBlockchain\\GOBBlockchain.csproj",
+      "packagesPath": "C:\\Users\\minso\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\minso\\Source\\Repos\\GOBPlatform\\GOBPlatform\\GOB-CORE\\blockchain\\GOBBlockchain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\ProgramData\\Xamarin\\NuGet\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Gob_New\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\minso\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"

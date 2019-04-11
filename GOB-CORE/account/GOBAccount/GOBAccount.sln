@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOBAccount", "GOBAccount\GOBAccount.csproj", "{01AC9786-7657-45ED-ADCE-1D89936B1E1D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{01AC9786-7657-45ED-ADCE-1D89936B1E1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01AC9786-7657-45ED-ADCE-1D89936B1E1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01AC9786-7657-45ED-ADCE-1D89936B1E1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01AC9786-7657-45ED-ADCE-1D89936B1E1D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {907AD6A9-FC0F-4278-B609-441FF9674DC9}
+	EndGlobalSection
+EndGlobal
