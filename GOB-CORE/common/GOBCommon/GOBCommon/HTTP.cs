@@ -8,12 +8,7 @@ namespace GOBCommon
     class HTTP
     {
     }
-
-    interface IObject
-    {
-        dynamic Value(dynamic value);
-    }
-
+    
     #region http/base/actor/event.go
     
     class EventActor
@@ -240,9 +235,9 @@ namespace GOBCommon
 
     class PrivacyPayloadInfo
     {
-        byte PayloadType; //golang -> uint8
+        uint PayloadType; //golang -> uint8
         string Payload;
-        byte EncryptType; //golang -> uint8
+        uint EncryptType; //golang -> uint8
         string EncryptAttr;
     }
 
