@@ -76,14 +76,14 @@ namespace GOBCommon
         void Register(*actor.PID poolId);
         void UnRegister(*actor.PID poolId);
 
-        vattypes.VerifyType VerifyType();
+        VerifyType VerifyType();
     }
 
     class validator
     {
-        private *actor.PID pid;
-        private string id;
-        private BestBlock bestBlock;
+        *actor.PID pid;
+        string id;
+        BestBlock bestBlock;
     }
     #endregion
 
