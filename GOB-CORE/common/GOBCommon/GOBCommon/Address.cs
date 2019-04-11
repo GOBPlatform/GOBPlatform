@@ -5,6 +5,7 @@ using System.Text;
 using GOBCommon;
 using GOBCommon.Hellper;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Linq;
 using System.Numerics;
 using GOBCrypto.RIPEMD160;
@@ -18,7 +19,9 @@ namespace GOBCommon
 
         public static string ToHexString(this byte[] address)
         {
-            return Encoding.Default.GetString(Common.ToArrayReverse(address));
+            //string key = X509Certificate2.CreateFromCertFile("aaaaa").GetPublicKeyString();
+            //string aa = Encoding.UTF8.GetBytes(key).ToBase58();
+            return Encoding.UTF8.GetString(Common.ToArrayReverse(address));
         }
 
         public static void Serialize(this byte[] address, StreamWriter writer)
@@ -98,7 +101,7 @@ namespace GOBCommon
         {
             var temp = GOBCommon.Hellper.SHA256.Hash(code);
             RIPEMD160 myRIPEMD160 = RIPEMD160Managed.Create();
-            myRIPEMD160.ComputeHash
+            myRIPEMD160.ComputeHash()
         }
          
         //func AddressFromVmCode(code[]byte) Address {
