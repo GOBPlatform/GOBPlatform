@@ -4,4 +4,14 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="consensus.cs" />
+    <Compile Remove="HTTP.cs" />
+    <Compile Remove="Validator.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\crypto\GOBCrypto\GOBCrypto\GOBCrypto.csproj" />
+  </ItemGroup>
+
 </Project>

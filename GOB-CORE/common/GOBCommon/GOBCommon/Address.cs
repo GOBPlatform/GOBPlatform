@@ -101,7 +101,8 @@ namespace GOBCommon
         {
             var temp = GOBCommon.Hellper.SHA256.Hash(code);
             RIPEMD160 myRIPEMD160 = RIPEMD160Managed.Create();
-            myRIPEMD160.ComputeHash()
+            //myRIPEMD160.ComputeHash();
+            return null;
         }
          
         //func AddressFromVmCode(code[]byte) Address {
