@@ -118,7 +118,7 @@ namespace GOBCommon.Hellper
             Contract.Requires<ArgumentNullException>(data != null);
             Contract.Ensures(Contract.Result<byte[]>() != null);
 
-            SHA256 sha256 = new SHA256Managed();
+            System.Security.Cryptography.SHA256 sha256 = new SHA256Managed();
             byte[] hash1 = sha256.ComputeHash(data);
             byte[] hash2 = sha256.ComputeHash(hash1);
 

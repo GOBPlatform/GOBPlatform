@@ -65,14 +65,19 @@ namespace GOBCommon.Hellper
 
     public static class ByteArrHelper
     {
-        public static byte[] Concat<T>(this byte[] byte_arr, byte[] vs)
+        /// <summary>
+        /// Array에 Array를 더한다.
+        /// </summary>
+        /// <param name="byte_arr"></param>
+        /// <param name="vs"></param>
+        public static void Concat<T>(this T[] byte_arr, T[] vs)
         {
             try
             {
-                byte[] arrayCombined = new byte[byte_arr.Length + vs.Length];
+                T[] arrayCombined = new T[byte_arr.Length + vs.Length];
                 Array.Copy(byte_arr, 0, arrayCombined, 0, byte_arr.Length);
                 Array.Copy(vs, 0, arrayCombined, byte_arr.Length, vs.Length);
-                return arrayCombined;
+                byte_arr = arrayCombined;
             }
             catch
             {

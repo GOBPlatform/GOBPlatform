@@ -5,6 +5,8 @@ using System.Text;
 using GOBCommon;
 using GOBCommon.Hellper;
 using System.Security.Cryptography;
+using System.Linq;
+using System.Numerics;
 
 namespace GOBCommon
 {
@@ -46,28 +48,11 @@ namespace GOBCommon
 
         public string ToBase58()
         {
-            //       data:= append([]byte{ 23}, f[:]...)
-            //temp:= sha256.Sum256(data)
-
-            //   temps:= sha256.Sum256(temp[:])
-
-            //   data = append(data, temps[0:4]...)
-
-
-            //   bi:= new (big.Int).SetBytes(data).String()
-
-
-            byte[] data = (new byte[] { 23 }).
-
-                ;
-            SHA256.Create().;
-                
-
-
-            return Base58Encoding.Encode(address);
+            byte[] data = Base58Encoding.AddCheckSum(address);
+            return Base58Encoding.Encode(data);
         }
 
-        public addres
+
         //    // AddressParseFromBytes returns parsed Address
         //    func AddressParseFromBytes(f[]byte) (Address, error) {
         //	if len(f) != ADDR_LEN {
