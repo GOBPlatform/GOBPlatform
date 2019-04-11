@@ -15,13 +15,13 @@ namespace GOBCommon
             P2P network;
             MessageRouter msgRouter;
             //pid       *evtActor.PID
-            //blockSync *BlockSyncMgr
+            BlockSyncMgr blockSync;
             //ledger    *ledger.Ledger
-            //ReconnectAddrs
+            ReconnectAddrs reconnectAddrs;
             Dictionary<UInt32, string> recentPeers;
-            bool quitSyncRecent;    //TODO...Chanel
-            bool quitOnline;        //TODO...Chanel
-            bool quitHeartBeat;     //TODO...Chanel
+            bool quitSyncRecent;
+            bool quitOnline;
+            bool quitHeartBeat;
         }
         /// <summary>
         /// p2pServer/p2pserver.go/ReconnectAddrs
@@ -34,6 +34,7 @@ namespace GOBCommon
         #endregion
 
         #region p2pserver/block_sync.go
+
         const int SYNC_MAX_HEADER_FORWARD_SIZE = 5000;       //keep CurrentHeaderHeight - CurrentBlockHeight <= SYNC_MAX_HEADER_FORWARD_SIZE
         const int SYNC_MAX_FLIGHT_HEADER_SIZE = 1;          //Number of headers on flight
         const int SYNC_MAX_FLIGHT_BLOCK_SIZE = 50;          //Number of blocks on flight
@@ -82,7 +83,7 @@ namespace GOBCommon
         class BlockInfo
         {
             UInt64 nodeID;
-            //block      *types.Block
+            Block block;
             //merkleRoot common.Uint256
         }
 
@@ -93,16 +94,16 @@ namespace GOBCommon
         class BlockSyncMgr
         {
             //flightBlocks   map[common.Uint256][]*SyncFlightInfo
-            //flightHeaders  map[uint32]*SyncFlightInfo
-            //blocksCache    map[uint32]*BlockInfo
-            //server         *P2PServer
+            Dictionary<UInt32, SyncFlightInfo> flightHeaders;
+            Dictionary<UInt32, BlockInfo> blocksCache;
+            P2PServer server;
             bool syncBlockLock;
             bool syncHeaderLock;
             bool saveBlockLock;
             //exitCh         chan interface{}
-            //ledger         *ledger.Ledger
+            //Ledger ledger;
             //lock           sync.RWMutex
-            //nodeWeights    map[uint64]*NodeWeight
+            Dictionary<UInt64, NodeWeight> nodeWeights;
         }
         #endregion
 
@@ -135,27 +136,28 @@ namespace GOBCommon
             //GetNeighborAddrs() []common.PeerAddr
 
             UInt32 GetConnectionCnt();
-            //GetNp() *peer.NbrPeers
+            NbrPeers GetNp();
             //GetPeer(uint64) *peer.Peer
             //SetHeight(uint64)
-            //IsPeerEstablished(p *peer.Peer) bool
+            bool IsPeerEstablished(Peer p);
             //Send(p *peer.Peer, msg types.Message, isConsensus bool) error
-            //GetMsgChan(isConsensus bool) chan *types.MsgPayload
-            //GetPeerFromAddr(addr string) *peer.Peer
-            //AddOutConnectingList(addr string) (added bool)
+            MsgPayload GetMsgChan(bool isConsensus);
+            Peer GetPeerFromAddr(string addr);
+            bool AddOutConnectingList(string addr);
             int GetOutConnRecordLen();
             void RemoveFromConnectingList(string addr);
             void RemoveFromOutConnRecord(string addr);
             void RemoveFromInConnRecord(string addr);
-            //AddPeerSyncAddress(addr string, p* peer.Peer)
-            //AddPeerConsAddress(addr string, p *peer.Peer)
+            void AddPeerSyncAddress(string addr, Peer p);
+            void AddPeerConsAddress(string addr, Peer p);
             void GetOutConnectingListLen(uint count);
             void RemovePeerSyncAddress(string addr);
             void RemovePeerConsAddress(string addr);
             //AddNbrNode(*peer.Peer)
-            //DelNbrNode(id uint64) (*peer.Peer, bool)
+
+            Tuple<Peer, bool> DelNbrNode(UInt64 id);
             //NodeEstablished(uint64) bool
-            //Xmit(msg types.Message, isCons bool)
+            void Xmit(Message msg, bool isCons);
             void SetOwnAddress(string addr);
             bool IsOwnAddress(string addr);
             bool IsAddrFromConnecting(string addr);
@@ -168,17 +170,17 @@ namespace GOBCommon
         /// </summary>
         class NetServer
         {
-            //base         peer.PeerCom
-            //synclistener net.Listener
+            PeerCom peercom;
+            //Listener synclistener;
             //conslistener net.Listener
             //SyncChan     chan *types.MsgPayload
             //ConsChan     chan *types.MsgPayload
             //ConnectingNodes
             //PeerAddrMap
-            //Np            *peer.NbrPeers
+            NbrPeers Np;
             //connectLock   sync.Mutex
-            //inConnRecord  InConnectionRecord
-            //outConnRecord OutConnectionRecord
+            InConnectionRecord inConnRecord;
+            OutConnectionRecord outConnRecord;
             string OwnAddress;
         }
         /// <summary>
@@ -211,14 +213,11 @@ namespace GOBCommon
         class PeerAddrMap
         {
             //sync.RWMutex
-            //PeerSyncAddress map[string]*peer.Peer
-            //PeerConsAddress map[string]*peer.Peer
+            Dictionary<string, Peer> PeerSyncAddress;
+            Dictionary<string, Peer> PeerConsAddress;
         }
         #endregion
 
-        #region p2pserver/net/netserver/net_utils.go
-
-        #endregion
         #endregion
 
         #region peer
@@ -263,7 +262,7 @@ namespace GOBCommon
         class NbrPeers
         {
             //sync.RWMutex
-            //List map[uint64]*Peer
+            Dictionary<UInt64, Peer> List;
         }
 
         #endregion
@@ -281,7 +280,7 @@ namespace GOBCommon
             //conn      net.Conn               // Connect socket with the peer node
             UInt16 port;                            //The server port of the node
             //time      time.Time              // The latest time the node activity
-            //recvChan  chan *types.MsgPayload //msgpayload channel
+            MsgPayload recvChan;
             Dictionary<string, Int64> reqRecord;    //Map RequestId to Timestamp, using for rejecting duplicate request in specific time
         }
         #endregion
@@ -323,9 +322,9 @@ namespace GOBCommon
         class AppendHeaders
         {
             UInt64 FromID;
-            //Headers[]*types.Header
+            //Headers []*types.Header
         }
-        
+
         class AppendBlock
         {
             UInt64 FromID;
@@ -540,7 +539,7 @@ namespace GOBCommon
         /// </summary>
         class GetNeighborAddrsRsp
         {
-            //Addrs []types.PeerAddr
+            PeerAddr[] Addrs;
         }
 
         /// <summary>
@@ -549,7 +548,7 @@ namespace GOBCommon
         class TransmitConsensusMsgReq
         {
             UInt64 Target;
-            //Msg ptypes.Message;
+            Message Msg;
         }
         #endregion
 
@@ -557,7 +556,7 @@ namespace GOBCommon
         class P2PActor
         {
             //props  *actor.Props
-            //server *p2pserver.P2PServer
+            P2PServer server;
         }
         #endregion
 
@@ -566,14 +565,17 @@ namespace GOBCommon
         #region message
 
         #region p2pserver/message/utils/msg_router.go
+
+        //data* types.MsgPayload, p2p p2p.P2P, pid* actor.PID, args ...interface{ }
+        delegate void MessageHandler(MsgPayload data);
         class MessageRouter
         {
-            //msgHandlers  map[string]MessageHandler
-            //RecvSyncChan chan *types.MsgPayload
-            //RecvConsChan chan *types.MsgPayload
-            //stopSyncCh   chan bool
-            //stopConsCh   chan bool
-            //p2p          p2p.P2P
+            Dictionary<string, messageHeader> msgHandlers;
+            MsgPayload RecvSyncChan;
+            MsgPayload RecvConsChan;
+            bool stopSyncCh;
+            bool stopConsCh;
+            P2P p2p;
             //pid          *actor.PID
         }
         #endregion
@@ -588,7 +590,7 @@ namespace GOBCommon
         #region p2pserver/message/types/address.go
         class Addr
         {
-            //NodeAddrs[] comm.PeerAddr
+            PeerAddr[] NodeAddrs;
         }
         #endregion
 
@@ -644,7 +646,7 @@ namespace GOBCommon
         #region p2pserver/message/types/consensus.go
         class Consensus
         {
-            //Cons ConsensusPayload
+            ConsensusPayload Cons;
         }
         #endregion
 
@@ -658,7 +660,6 @@ namespace GOBCommon
         #endregion
 
         #region p2pserver/message/types/disconnected.go
-
         class Disconnected
         {
 
@@ -686,7 +687,7 @@ namespace GOBCommon
             UInt64 Id;
             string Addr;
             UInt32 PayloadSize;
-            //Payload Message
+            Message Payload;
         }
 
         class messageHeader
@@ -727,13 +728,19 @@ namespace GOBCommon
         #endregion
 
         #region p2pserver/message/types/verack.go
+        /// <summary>
+        /// p2pserver/message/types/verack.go/VerACK
+        /// </summary>
         class VerACK
         {
             bool IsConsensus;
         }
         #endregion
 
-        #region p2pserver/message/types/
+        #region p2pserver/message/types/version.go
+        /// <summary>
+        /// p2pserver/message/types/version.go/VersionPayload
+        /// </summary>
         class VersionPayload
         {
             UInt32 Version;
@@ -749,9 +756,12 @@ namespace GOBCommon
             bool IsConsensus;
             string SoftVersion;
         }
+        /// <summary>
+        /// p2pserver/message/types/version.go/Version
+        /// </summary>
         class Version
         {
-            //P VersionPayload
+            VersionPayload P;
         }
         #endregion
 
