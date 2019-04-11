@@ -35,19 +35,19 @@ namespace GOBCommon
 
         #region p2pserver/block_sync.go
 
-        const int SYNC_MAX_HEADER_FORWARD_SIZE = 5000;       //keep CurrentHeaderHeight - CurrentBlockHeight <= SYNC_MAX_HEADER_FORWARD_SIZE
-        const int SYNC_MAX_FLIGHT_HEADER_SIZE = 1;          //Number of headers on flight
-        const int SYNC_MAX_FLIGHT_BLOCK_SIZE = 50;          //Number of blocks on flight
-        const int SYNC_MAX_BLOCK_CACHE_SIZE = 500;          //Cache size of block wait to commit to ledger
-        const int SYNC_HEADER_REQUEST_TIMEOUT = 2;          //s, Request header timeout time. If header haven't receive after SYNC_HEADER_REQUEST_TIMEOUT second, retry
-        const int SYNC_BLOCK_REQUEST_TIMEOUT = 2;          //s, Request block timeout time. If block haven't received after SYNC_BLOCK_REQUEST_TIMEOUT second, retry
-        const int SYNC_NEXT_BLOCK_TIMES = 3;          //Request times of next height block
-        const int SYNC_NEXT_BLOCKS_HEIGHT = 2;          //for current block height plus next
-        const int SYNC_NODE_RECORD_SPEED_CNT = 3;          //Record speed count for accuracy
-        const int SYNC_NODE_RECORD_TIME_CNT = 3;          //Record request time  for accuracy
-        const int SYNC_NODE_SPEED_INIT = 100 * 1024;   //Init a big speed (100MB/s) for every node in first round
-        const int SYNC_MAX_ERROR_RESP_TIMES = 5;          //Max error headers/blocks response times, if reaches, delete it
-        const int SYNC_MAX_HEIGHT_OFFSET = 5;          //Offset of the max height and current height
+        const int SYNC_MAX_HEADER_FORWARD_SIZE = 5000; 
+        const int SYNC_MAX_FLIGHT_HEADER_SIZE = 1;     
+        const int SYNC_MAX_FLIGHT_BLOCK_SIZE = 50;     
+        const int SYNC_MAX_BLOCK_CACHE_SIZE = 500;     
+        const int SYNC_HEADER_REQUEST_TIMEOUT = 2;     
+        const int SYNC_BLOCK_REQUEST_TIMEOUT = 2;      
+        const int SYNC_NEXT_BLOCK_TIMES = 3;          
+        const int SYNC_NEXT_BLOCKS_HEIGHT = 2;         
+        const int SYNC_NODE_RECORD_SPEED_CNT = 3;      
+        const int SYNC_NODE_RECORD_TIME_CNT = 3;       
+        const int SYNC_NODE_SPEED_INIT = 100 * 1024;   
+        const int SYNC_MAX_ERROR_RESP_TIMES = 5;       
+        const int SYNC_MAX_HEIGHT_OFFSET = 5;          
 
         /// <summary>
         /// NodeWeight record some params of node, using for sort
@@ -55,11 +55,11 @@ namespace GOBCommon
         /// </summary>
         class NodeWeight
         {
-            UInt64 id;          //NodeID
-            float[] speed;      //Record node request-response speed, using for calc the avg speed, unit kB/s
-            int timeoutCnt;     //Node response timeout count
-            int errorRespCnt;   //Node response error data count
-            Int64 reqTime;      //Record request time, using for calc the avg req time interval, unit millisecond
+            UInt64 id;       
+            float[] speed;   
+            int timeoutCnt;  
+            int errorRespCnt;
+            Int64 reqTime;   
         }
 
         /// <summary>
@@ -173,8 +173,8 @@ namespace GOBCommon
             PeerCom peercom;
             //Listener synclistener;
             //conslistener net.Listener
-            //SyncChan     chan *types.MsgPayload
-            //ConsChan     chan *types.MsgPayload
+            MsgPayload SyncChan;
+            MsgPayload ConsChan;
             //ConnectingNodes
             //PeerAddrMap
             NbrPeers Np;
