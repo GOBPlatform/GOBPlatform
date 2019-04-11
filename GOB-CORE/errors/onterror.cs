@@ -1,17 +1,14 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace GOBPlatform.errors
+namespace GOBBlockchain.Errors
 {
-    public class ontError
+    public class OntError
     {
-        string errmsg;
-        CallStack callstack;
-        UInt32 root;
-
-    }
-
-    public class CallStack
-    {
+        String errmsg;
         uint[] Stacks;
+        String root; // root error
+        Int32 ErrCode;
     }
 }
