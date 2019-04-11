@@ -308,7 +308,7 @@ namespace GOBConfig
     /// <remarks>
     /// config/config.go
     /// </remarks>
-    public class OntologyConfig
+    public class GOBConfig
     {
         private GenesisConfig genesis;
         private CommonConfig common;
