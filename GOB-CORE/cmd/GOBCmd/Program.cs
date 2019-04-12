@@ -1,4 +1,5 @@
 ﻿using System;
+using GOBCommon;
 
 namespace GOBCmd
 {
@@ -6,7 +7,18 @@ namespace GOBCmd
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Address oAddr = Address.GetInstance();
+            Address.ArrAddress = new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01};
+        
+            byte[] code = new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04};
+            var addr = oAddr.AddressFromVmCode(code);
+            
+            Console.WriteLine(BitConverter.ToString(addr));
+
+
+            Console.WriteLine(oAddr.ToBase58());
+
         }
     }
 }
