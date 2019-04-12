@@ -247,7 +247,7 @@ namespace GOBCommon.Hellper
 
         private static byte[] _GetCheckSum(byte[] data)
         {
-            System.Security.Cryptography.SHA256 sha256 = new SHA256Managed();
+            SHA256 sha256 = new SHA256Managed();
             var hash1 = sha256.ComputeHash(data);
             var hash2 = sha256.ComputeHash(hash1);
 

@@ -15,12 +15,12 @@ namespace GOBCrypto.keypair
     public class PKI
     {
         private static PKI _instance = null;
-        private RSACryptoServiceProvider rsa;
+        private RSACryptoServiceProvider csp;
         public PKI()
         {
         }
 
-        public PKI GetInstance()
+        public static PKI GetInstance()
         {
             if (_instance == null) _instance = new PKI();
             return _instance;
@@ -28,48 +28,49 @@ namespace GOBCrypto.keypair
 
         public void GenerateKey()
         {
-            rsa = new RSACryptoServiceProvider();
+            csp = new RSACryptoServiceProvider();
             RSAParameters privateKey = RSA.Create().ExportParameters(true);
-            rsa.ImportParameters(privateKey);
+            csp.ImportParameters(privateKey);
         }
 
-        private string ExportPrivateKey(RSACryptoServiceProvider csp)
+        public string ExportPrivateKey()
         {
-            TextWriter outputStream = new StringWriter();
-
-            if (csp.PublicOnly) throw new ArgumentException("CSP does not contain a private key", "csp");
-            var parameters = csp.ExportParameters(true);
-            using (var stream = new MemoryStream())
+            using (TextWriter outputStream = new StringWriter())
             {
-                var writer = new BinaryWriter(stream);
-                writer.Write((byte)0x30); // SEQUENCE
-                using (var innerStream = new MemoryStream())
+                if (csp.PublicOnly) throw new ArgumentException("CSP does not contain a private key", "csp");
+                var parameters = csp.ExportParameters(true);
+                using (var stream = new MemoryStream())
                 {
-                    var innerWriter = new BinaryWriter(innerStream);
-                    EncodeIntegerBigEndian(innerWriter, new byte[] { 0x00 }); // Version
-                    EncodeIntegerBigEndian(innerWriter, parameters.Modulus);
-                    EncodeIntegerBigEndian(innerWriter, parameters.Exponent);
-                    EncodeIntegerBigEndian(innerWriter, parameters.D);
-                    EncodeIntegerBigEndian(innerWriter, parameters.P);
-                    EncodeIntegerBigEndian(innerWriter, parameters.Q);
-                    EncodeIntegerBigEndian(innerWriter, parameters.DP);
-                    EncodeIntegerBigEndian(innerWriter, parameters.DQ);
-                    EncodeIntegerBigEndian(innerWriter, parameters.InverseQ);
-                    var length = (int)innerStream.Length;
-                    EncodeLength(writer, length);
-                    writer.Write(innerStream.GetBuffer(), 0, length);
-                }
+                    var writer = new BinaryWriter(stream);
+                    writer.Write((byte)0x30); // SEQUENCE
+                    using (var innerStream = new MemoryStream())
+                    {
+                        var innerWriter = new BinaryWriter(innerStream);
+                        EncodeIntegerBigEndian(innerWriter, new byte[] { 0x00 }); // Version
+                        EncodeIntegerBigEndian(innerWriter, parameters.Modulus);
+                        EncodeIntegerBigEndian(innerWriter, parameters.Exponent);
+                        EncodeIntegerBigEndian(innerWriter, parameters.D);
+                        EncodeIntegerBigEndian(innerWriter, parameters.P);
+                        EncodeIntegerBigEndian(innerWriter, parameters.Q);
+                        EncodeIntegerBigEndian(innerWriter, parameters.DP);
+                        EncodeIntegerBigEndian(innerWriter, parameters.DQ);
+                        EncodeIntegerBigEndian(innerWriter, parameters.InverseQ);
+                        var length = (int)innerStream.Length;
+                        EncodeLength(writer, length);
+                        writer.Write(innerStream.GetBuffer(), 0, length);
+                    }
 
-                var base64 = Convert.ToBase64String(stream.GetBuffer(), 0, (int)stream.Length).ToCharArray();
-                outputStream.WriteLine("-----BEGIN RSA PRIVATE KEY-----");
-                // Output as Base64 with lines chopped at 64 characters
-                for (var i = 0; i < base64.Length; i += 64)
-                {
-                    outputStream.WriteLine(base64, i, Math.Min(64, base64.Length - i));
+                    var base64 = Convert.ToBase64String(stream.GetBuffer(), 0, (int)stream.Length).ToCharArray();
+                    outputStream.WriteLine("-----BEGIN RSA PRIVATE KEY-----");
+                    // Output as Base64 with lines chopped at 64 characters
+                    for (var i = 0; i < base64.Length; i += 64)
+                    {
+                        outputStream.WriteLine(base64, i, Math.Min(64, base64.Length - i));
+                    }
+                    outputStream.WriteLine("-----END RSA PRIVATE KEY-----");
                 }
-                outputStream.WriteLine("-----END RSA PRIVATE KEY-----");
+                return outputStream.ToString();
             }
-            return outputStream.ToString();
         }
 
         private void EncodeLength(BinaryWriter stream, int length)
@@ -130,45 +131,45 @@ namespace GOBCrypto.keypair
             }
         }
 
-        public String ExportPublicKey(RSACryptoServiceProvider csp)
+        public String ExportPublicKey()
         {
-            TextWriter outputStream = new StringWriter();
-
-            var parameters = csp.ExportParameters(false);
-            using (var stream = new MemoryStream())
+            using (TextWriter outputStream = new StringWriter())
             {
-                var writer = new BinaryWriter(stream);
-                writer.Write((byte)0x30);
-                using (var innerStream = new MemoryStream())
+                var parameters = csp.ExportParameters(false);
+                using (var stream = new MemoryStream())
                 {
-                    var innerWriter = new BinaryWriter(innerStream);
-                    EncodeIntegerBigEndian(innerWriter, new byte[] { 0x00 });
-                    EncodeIntegerBigEndian(innerWriter, parameters.Modulus);
-                    EncodeIntegerBigEndian(innerWriter, parameters.Exponent);
+                    var writer = new BinaryWriter(stream);
+                    writer.Write((byte)0x30);
+                    using (var innerStream = new MemoryStream())
+                    {
+                        var innerWriter = new BinaryWriter(innerStream);
+                        EncodeIntegerBigEndian(innerWriter, new byte[] { 0x00 });
+                        EncodeIntegerBigEndian(innerWriter, parameters.Modulus);
+                        EncodeIntegerBigEndian(innerWriter, parameters.Exponent);
 
-                    EncodeIntegerBigEndian(innerWriter, parameters.Exponent);
-                    EncodeIntegerBigEndian(innerWriter, parameters.Exponent);
-                    EncodeIntegerBigEndian(innerWriter, parameters.Exponent);
-                    EncodeIntegerBigEndian(innerWriter, parameters.Exponent);
-                    EncodeIntegerBigEndian(innerWriter, parameters.Exponent);
-                    EncodeIntegerBigEndian(innerWriter, parameters.Exponent);
+                        EncodeIntegerBigEndian(innerWriter, parameters.Exponent);
+                        EncodeIntegerBigEndian(innerWriter, parameters.Exponent);
+                        EncodeIntegerBigEndian(innerWriter, parameters.Exponent);
+                        EncodeIntegerBigEndian(innerWriter, parameters.Exponent);
+                        EncodeIntegerBigEndian(innerWriter, parameters.Exponent);
+                        EncodeIntegerBigEndian(innerWriter, parameters.Exponent);
 
-                    var length = (int)innerStream.Length;
-                    EncodeLength(writer, length);
-                    writer.Write(innerStream.GetBuffer(), 0, length);
+                        var length = (int)innerStream.Length;
+                        EncodeLength(writer, length);
+                        writer.Write(innerStream.GetBuffer(), 0, length);
+                    }
+
+                    var base64 = Convert.ToBase64String(stream.GetBuffer(), 0, (int)stream.Length).ToCharArray();
+                    outputStream.WriteLine("-----BEGIN RSA PUBLIC KEY-----");
+
+                    for (var i = 0; i < base64.Length; i += 64)
+                    {
+                        outputStream.WriteLine(base64, i, Math.Min(64, base64.Length - i));
+                    }
+                    outputStream.WriteLine("-----END RSA PUBLIC KEY-----");
+
+                    return outputStream.ToString();
                 }
-
-                var base64 = Convert.ToBase64String(stream.GetBuffer(), 0, (int)stream.Length).ToCharArray();
-                outputStream.WriteLine("-----BEGIN RSA PUBLIC KEY-----");
-
-                for (var i = 0; i < base64.Length; i += 64)
-                {
-                    outputStream.WriteLine(base64, i, Math.Min(64, base64.Length - i));
-                }
-                outputStream.WriteLine("-----END RSA PUBLIC KEY-----");
-
-                return outputStream.ToString();
-
             }
         }
 
