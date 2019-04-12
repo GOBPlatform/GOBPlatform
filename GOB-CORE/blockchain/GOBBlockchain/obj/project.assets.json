@@ -688,7 +688,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\1\\.nuget\\packages\\": {},
+    "C:\\Users\\Nam\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
@@ -697,14 +697,14 @@
       "projectUniqueName": "D:\\Project\\GOBPlatform\\GOB-CORE\\blockchain\\GOBBlockchain\\GOBBlockchain.csproj",
       "projectName": "GOBBlockchain",
       "projectPath": "D:\\Project\\GOBPlatform\\GOB-CORE\\blockchain\\GOBBlockchain\\GOBBlockchain.csproj",
-      "packagesPath": "C:\\Users\\1\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\Nam\\.nuget\\packages\\",
       "outputPath": "D:\\Project\\GOBPlatform\\GOB-CORE\\blockchain\\GOBBlockchain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Nam\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
