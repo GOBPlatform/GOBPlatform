@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GOBCommon.Hellper
 {
-    public class SHA256
+    public class ExtSHA256
     {
         private static readonly SHA256Managed sha256 = new SHA256Managed();
 

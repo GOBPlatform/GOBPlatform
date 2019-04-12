@@ -122,7 +122,7 @@ namespace GOBCommon
 
         public byte[] AddressFromVmCode(byte[] code)
         {
-            var temp = GOBCommon.Hellper.SHA256.Hash(code);
+            var temp = GOBCommon.Hellper.ExtSHA256.Hash(code);
             RIPEMD160 myRIPEMD160 = RIPEMD160Managed.Create();
             return myRIPEMD160.ComputeHash(temp);
         }
