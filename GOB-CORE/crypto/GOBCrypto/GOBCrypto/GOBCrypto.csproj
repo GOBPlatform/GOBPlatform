@@ -5,15 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="signature\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="NETCore.Encrypt" Version="2.0.7" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-    <PackageReference Include="Portable.BouncyCastle" Version="1.8.5" />
-    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
-    <PackageReference Include="System.Security.Cryptography.Cng" Version="4.5.0" />
+    <PackageReference Include="BouncyCastle" Version="1.8.5" />
   </ItemGroup>
 
 </Project>
