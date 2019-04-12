@@ -18,7 +18,7 @@ namespace GOBCrypto.aes
             return _instance;
         }
 
-        public static string Decrypt(string textToDecrypt, string key)
+        public string Decrypt(string textToDecrypt, string key)
         {
             RijndaelManaged rijndaelCipher = new RijndaelManaged();
             rijndaelCipher.Mode = CipherMode.CBC;
@@ -41,7 +41,7 @@ namespace GOBCrypto.aes
             return Encoding.UTF8.GetString(plainText);
         }
 
-        public static string Encrypt(string textToEncrypt, string key)
+        public string Encrypt(string textToEncrypt, string key)
         {
             RijndaelManaged rijndaelCipher = new RijndaelManaged();
             rijndaelCipher.Mode = CipherMode.CBC;
