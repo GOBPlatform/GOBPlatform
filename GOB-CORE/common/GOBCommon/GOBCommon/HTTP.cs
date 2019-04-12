@@ -8,7 +8,7 @@ namespace GOBCommon
     class HTTP
     {
     }
-
+    
     #region http/base/actor/event.go
     
     class EventActor
