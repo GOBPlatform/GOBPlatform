@@ -10,6 +10,8 @@ using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Math.EC;
 using Org.BouncyCastle.Crypto.Signers;
 using System.Text;
+using Base58Check;
+using System.Security.Cryptography;
 
 namespace GOBCrypto
 {
@@ -119,7 +121,7 @@ namespace GOBCrypto
         private string GetPublicKey()
         {
             if (_publicKeyParams == null) InitKeyGen();
-            ECPoint q = _publicKeyParams.Q;
+            Org.BouncyCastle.Math.EC.ECPoint q = _publicKeyParams.Q;
             FpPoint fp = new FpPoint(GetECParams().Curve, q.AffineXCoord, q.AffineYCoord);
             byte[] enc = fp.GetEncoded(true);
             return BitConverter.ToString(enc).Replace("-", "");
@@ -138,7 +140,7 @@ namespace GOBCrypto
                 ECPrivateKeyParameters privateKeyParams = new ECPrivateKeyParameters(priv, domainParams);
 
                 BigInteger pub = new BigInteger(publicKey, 16);
-                ECPoint q = domainParams.Curve.DecodePoint(pub.ToByteArray());
+                Org.BouncyCastle.Math.EC.ECPoint q = domainParams.Curve.DecodePoint(pub.ToByteArray());
                 ECPublicKeyParameters publicKeyParams = new ECPublicKeyParameters(q, domainParams);
 
                 ECDsaSigner privSigner = new ECDsaSigner();
@@ -160,5 +162,42 @@ namespace GOBCrypto
 
             return verified;
         }
+
+        public string GetAddress(byte _protocol, string _publicKey)
+        {
+            string sPubKey = _publicKey;
+            BigInteger pubKey = new BigInteger(sPubKey, 16);
+            byte[] publicKey = pubKey.ToByteArray();
+
+            var sha256 = SHA256.Create();
+            var shaHash = sha256.ComputeHash(publicKey);
+
+            var ripemd160 = RIPEMD160.Create();
+            var mdHash = ripemd160.ComputeHash(shaHash);
+
+            var xmdHash = new byte[mdHash.Length + 1];
+            xmdHash[0] = _protocol;
+            Array.Copy(mdHash, 0, xmdHash, 1, mdHash.Length);
+
+            var doubleHash = sha256.ComputeHash(sha256.ComputeHash(xmdHash));
+            var checksum = new byte[4];
+            Array.Copy(doubleHash, 0, checksum, 0, 4);
+
+            var binAddr = new byte[25];
+            Array.Copy(xmdHash, 0, binAddr, 0, 21);
+            Array.Copy(checksum, 0, binAddr, 21, 4);
+
+            string address = Base58CheckEncoding.EncodePlain(binAddr);
+            return address;
+        }
+
+        public byte[] GetHash160FromAddress(string address)
+        {
+            byte[] addrBytes = Base58CheckEncoding.DecodePlain(address);
+            byte[] hash160 = new byte[20];
+            Array.Copy(addrBytes, 1, hash160, 0, 20);
+            return hash160;
+        }
     }
+
 }
