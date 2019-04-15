@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Linq;
 using System.Numerics;
-using GOBCrypto.RIPEMD160;
+using GOBCrypto;
 
 namespace GOBCommon
 {

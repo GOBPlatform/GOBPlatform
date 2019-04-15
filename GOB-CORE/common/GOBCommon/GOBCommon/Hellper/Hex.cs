@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
-
+using System.Linq;
 
 namespace GOBCommon.Hellper
 {
-    public static class Hex
+    public class Hex
     {
+        //NBitCoint에 HexEncoder.cs에서 따옴
+        static readonly int[] hexValueArray;
+        private static readonly string[] HexTbl = Enumerable.Range(0, 256).Select(v => v.ToString("x2")).ToArray();
+        public bool Space {get;set;}
+
         private static readonly string[] _byteToHex = new[]
         {
             "00", "01", "02", "03", "04", "05", "06", "07",
@@ -46,6 +51,9 @@ namespace GOBCommon.Hellper
 
         private static readonly Dictionary<string, byte> _hexToByte = new Dictionary<string, byte>();
 
+        /// <summary>
+        /// 생성자
+        /// </summary>
         static Hex()
         {
             for (byte b = 0; b < 255; b++)
@@ -54,6 +62,23 @@ namespace GOBCommon.Hellper
             }
 
             _hexToByte["ff"] = 255;
+
+            //NBitCoint에 HexEncoder.cs에서 따옴
+            var hexDigits = new[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f',
+                                                                                  'A', 'B', 'C', 'D', 'E', 'F' };
+            var hexValues = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                                                                   10, 11, 12, 13, 14, 15};
+
+            var max = hexDigits.Max();
+            hexValueArray = new int[max + 1];
+            for (int i = 0; i < hexValueArray.Length; i++)
+            {
+                var idx = Array.IndexOf(hexDigits, (char)i);
+                var value = -1;
+                if (idx != -1)
+                    value = hexValues[idx];
+                hexValueArray[i] = value;
+            }
         }
 
         public static string BigIntegerToHex(BigInteger value)
@@ -70,6 +95,11 @@ namespace GOBCommon.Hellper
             return new BigInteger(bytes);
         }
 
+        /// <summary>
+        /// Byte 배열을 Hex String 으로 변환
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
         public static string BytesToHex(byte[] bytes)
         {
             var hex = new StringBuilder(bytes.Length * 2);
@@ -110,6 +140,57 @@ namespace GOBCommon.Hellper
             }
 
             return hex.ToString();
+        }
+
+        public string EncodeData(byte[] data, int offset, int count)
+        {
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+
+            var spaces = (Space ? Math.Max((count - 1), 0) : 0);
+
+            int pos = 0;
+            var s = new char[2 * count + spaces];
+            for (var i = offset; i < offset + count; i++)
+            {
+                if (Space && i != 0)
+                    s[pos++] = ' ';
+                var c = HexTbl[data[i]];
+                s[pos++] = c[0];
+                s[pos++] = c[1];
+            }
+            return new string(s);
+        }
+
+        public byte[] DecodeData(string encoded)
+        {
+            if (encoded == null)
+                throw new ArgumentNullException(nameof(encoded));
+            if (encoded.Length % 2 == 1)
+                throw new FormatException("Invalid Hex String");
+
+            var result = new byte[encoded.Length / 2];
+            for (int i = 0, j = 0; i < encoded.Length; i += 2, j++)
+            {
+                var a = IsDigit(encoded[i]);
+                var b = IsDigit(encoded[i + 1]);
+                if (a == -1 || b == -1)
+                    throw new FormatException("Invalid Hex String");
+                result[j] = (byte)(((uint)a << 4) | (uint)b);
+            }
+            return result;
+        }
+
+        public static bool IsValid(string str)
+        {
+            return str.ToCharArray().All(c => IsDigit(c) != -1) && str.Length % 2 == 0;
+        }
+
+        public static int IsDigit(char c)
+        {
+            return c + 1 <= hexValueArray.Length
+                ? hexValueArray[c]
+                : -1;
         }
     }
 }

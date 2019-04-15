@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="NBitcoin" Version="4.1.1.98" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\crypto\GOBCrypto\GOBCrypto\GOBCrypto.csproj" />
   </ItemGroup>
 
