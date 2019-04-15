@@ -56,43 +56,43 @@ namespace GOBCrypto
             _publicKeyParams = _keyPair.Public as ECPublicKeyParameters;
         }
 
-        public X9ECParameters GetECParams()
+        private X9ECParameters GetECParams()
         {
             if (_ecParams == null) _ecParams = SecNamedCurves.GetByName("secp256k1");
             return _ecParams;
         }
 
-        public ECDomainParameters GetDomainParams()
+        private ECDomainParameters GetDomainParams()
         {
             if (_domainParams == null) _domainParams = new ECDomainParameters(GetECParams().Curve, GetECParams().G, GetECParams().N, GetECParams().H);
             return _domainParams;
         }
 
-        public SecureRandom GetSecureRandom()
+        private SecureRandom GetSecureRandom()
         {
             if (_random == null) _random = new SecureRandom();
             return _random;
         }
 
-        public ECKeyPairGenerator GetECKeyPairGen()
+        private ECKeyPairGenerator GetECKeyPairGen()
         {
             if (_keyGen == null) _keyGen = new ECKeyPairGenerator();
             return _keyGen;
         }
 
-        public ECKeyGenerationParameters GetECKeyGenParams()
+        private ECKeyGenerationParameters GetECKeyGenParams()
         {
             if (_keyParams == null) _keyParams = new ECKeyGenerationParameters(GetDomainParams(), GetSecureRandom());
             return _keyParams;
         }
 
-        public AsymmetricCipherKeyPair GetAsymmetricCipher()
+        private AsymmetricCipherKeyPair GetAsymmetricCipher()
         {
             if (_keyPair == null) _keyPair = GetECKeyPairGen().GenerateKeyPair();
             return _keyPair;
         }
 
-        public void GenerateKeyPair()
+        private void GenerateKeyPair()
         {
             _keyPair = GetAsymmetricCipher();
         }
@@ -157,7 +157,7 @@ namespace GOBCrypto
             }
             catch (Exception e)
             {
-
+                Console.WriteLine("VerifySignature Exception : " + e.Message);
             }
 
             return verified;
@@ -187,8 +187,7 @@ namespace GOBCrypto
             Array.Copy(xmdHash, 0, binAddr, 0, 21);
             Array.Copy(checksum, 0, binAddr, 21, 4);
 
-            string address = Base58CheckEncoding.EncodePlain(binAddr);
-            return address;
+            return Base58CheckEncoding.EncodePlain(binAddr);
         }
 
         public byte[] GetHash160FromAddress(string address)
