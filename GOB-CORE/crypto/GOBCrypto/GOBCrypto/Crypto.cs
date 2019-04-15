@@ -20,7 +20,6 @@ namespace GOBCrypto
         private static Crypto _instance = null;
         private string _privateKey;
         private string _publicKey;
-        private string _unCompressPublicKey;
 
         private X9ECParameters _ecParams = null;
         private ECDomainParameters _domainParams = null;
@@ -35,7 +34,6 @@ namespace GOBCrypto
 
         public string PublicKey { get => GetPublicKey(); }
         public string PrivateKey { get => GetPrivateKey(); }
-        //public string UnCompressPublicKey { get => GetUnCompressPublicKey(); set => _unCompressPublicKey = value; }
 
         public static Crypto GetInstance()
         {
