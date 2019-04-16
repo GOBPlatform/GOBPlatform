@@ -43,5 +43,11 @@ namespace GOBCommon.Hellper
             byte[] bytes = Hex.HexToBytes(hexData);
             return DoubleHashCheckSum(bytes);
         }
+
+        public static string StringHash(string value)
+        {
+            var bytes = Encoding.UTF8.GetBytes(value);
+            return BitConverter.ToString(Hash(bytes));
+        }
     }
 }

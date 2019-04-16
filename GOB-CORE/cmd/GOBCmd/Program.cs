@@ -6,6 +6,8 @@ using System.Text;
 
 using GOBCommon;
 
+using System.Security.Cryptography;
+
 namespace GOBCmd
 {
     class Program
@@ -28,28 +30,28 @@ namespace GOBCmd
             //==== 개인키,공개키 생성====
             //var priKey = Crypto.GetInstance().PrivateKey;
             //var pubKey = Crypto.GetInstance().PublicKey;
-            //Console.WriteLine(priKey);
-            //Console.WriteLine(pubKey);
+            //Console.WriteLine("Private Key =====> " + priKey);
+            //Console.WriteLine("Public Key =====> " + pubKey);
 
             //Crypto.GetInstance().InitKeyGen();
-            //Console.WriteLine(Crypto.GetInstance().PrivateKey);
-            //Console.WriteLine(Crypto.GetInstance().PublicKey);
+            //Console.WriteLine("Private Key =====> " + Crypto.GetInstance().PrivateKey);
+            //Console.WriteLine("Public Key =====> " + Crypto.GetInstance().PublicKey);
 
             //Console.WriteLine(Crypto.GetInstance().VerifySignature("이것이냐?", Crypto.GetInstance().PrivateKey, pubKey));
             //==== 개인키,공개키 생성====
 
-            //==== 주소 생성====
+            ////==== 주소 생성====
             //byte proto = 0;
             //var priKey = Crypto.GetInstance().PrivateKey;
             //var pubKey = Crypto.GetInstance().PublicKey;
             //string addrStr = Crypto.GetInstance().GetAddress(proto, pubKey);
-            ////외부에서 쓰는거
-            //Console.WriteLine(addrStr);
-            //Console.WriteLine(Crypto.GetInstance().GetAddress(proto, pubKey).Length);
-            ////내부에서 쓰는거
-            //Console.WriteLine(BitConverter.ToString(Crypto.GetInstance().GetHash160FromAddress(addrStr)).Replace("-",""));
+            //////외부에서 쓰는거
+            //Console.WriteLine("Address : " + addrStr);
+            //Console.WriteLine("Address Length : " + Crypto.GetInstance().GetAddress(proto, pubKey).Length);
+            //////내부에서 쓰는거
+            //Console.WriteLine(BitConverter.ToString(Crypto.GetInstance().GetHash160FromAddress(addrStr)).Replace("-", ""));
             //Console.WriteLine(Crypto.GetInstance().GetHash160FromAddress(addrStr).Length);
-            //==== 주소 생성====
+            ////==== 주소 생성====
 
             //==== Nonce 값====
             //Console.WriteLine(Common.GetNonce());
@@ -57,10 +59,12 @@ namespace GOBCmd
             //Console.WriteLine(Common.GetNonce());
             //Console.WriteLine(Common.GetNonce());
             //==== Nonce 값====
-            
-            int a = 1;
-            int b = 1;
-            Console.WriteLine(a & b);
+
+            SHA256 sha = new SHA256Managed();
+            string test = "Hello world~!";
+            string hash = GOBCommon.Hellper.ExtSHA256.StringHash(test).Replace("-", "");
+            Console.WriteLine(hash);
+            Console.WriteLine(hash.Length);
         }
     }
 }
