@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -8,6 +10,27 @@ namespace GOBCommon
 {
     public class Common
     {
+       public static byte[] GobSerialize(object obj)
+        {
+            byte[] objectByte;
+            using (MemoryStream st = new MemoryStream())
+            {
+                BinaryFormatter binFmt = new BinaryFormatter();
+                binFmt.Serialize(st, obj);
+                objectByte = st.ToArray();
+            }
+            return objectByte;
+        }
+
+        public static T GobDeserialize<T>(byte[] objectByte)
+        {
+            using (MemoryStream st = new MemoryStream(objectByte))
+            {
+                BinaryFormatter binFmt = new BinaryFormatter();
+                return (T)binFmt.Deserialize(st);
+            }
+        }
+
         public static UInt64 GetNonce()
         {
             var ByteArray = new byte[8]; //Nonce 값을 만들어낼 byte 배열(uint64)

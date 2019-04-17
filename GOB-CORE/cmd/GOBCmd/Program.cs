@@ -79,21 +79,25 @@ namespace GOBCmd
 
             //직렬화!!! 역직렬화!!! 퇴~~에쓰뜨~~!!!
             byte[] objectByte;
-            using (MemoryStream st = new MemoryStream())
-            {
-                ITransaction seTransaction = new Transaction("ABC", "DEF", 1.0f, new List<TransactionInput>());
-                BinaryFormatter binFmt = new BinaryFormatter();
-                binFmt.Serialize(st, seTransaction);
-                objectByte = st.ToArray();
-            }
+            ITransaction seTransaction = new Transaction("ABC", "DEF", 1.0f, new List<TransactionInput>());
+            //using (MemoryStream st = new MemoryStream())
+            //{
+            //    BinaryFormatter binFmt = new BinaryFormatter();
+            //    binFmt.Serialize(st, seTransaction);
+            //    objectByte = st.ToArray();
+            //}
 
             ITransaction deTransaction;
-            using (MemoryStream st = new MemoryStream(objectByte))
-            {
-                BinaryFormatter binFmt = new BinaryFormatter();
-                deTransaction = (ITransaction)binFmt.Deserialize(st);
-                Console.WriteLine(deTransaction.Sender + ", " + deTransaction.Reciepient + ", " + deTransaction.Value.ToString());
-            }
+            //using (MemoryStream st = new MemoryStream(objectByte))
+            //{
+            //    BinaryFormatter binFmt = new BinaryFormatter();
+            //    deTransaction = (ITransaction)binFmt.Deserialize(st);
+            //    Console.WriteLine(deTransaction.Sender + ", " + deTransaction.Reciepient + ", " + deTransaction.Value.ToString());
+            //}
+
+            objectByte = GOBCommon.Common.GobSerialize(seTransaction);
+            deTransaction = Common.GobDeserialize<ITransaction>(objectByte);
+            Console.WriteLine(deTransaction.Sender + ", " + deTransaction.Reciepient + ", " + deTransaction.Value.ToString());
             //직렬화!!! 역직렬화!!! 퇴~~에쓰뜨~~!!!
         }
     }
