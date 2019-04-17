@@ -38,7 +38,9 @@ namespace GOBBlockchain.Block
 
         public string calcuateHash()
         {
-            throw new NotImplementedException();
+            byte[] hdArr = BlockHeader.ToByteArray();
+
+            return "";
         }
 
         #endregion

@@ -3,11 +3,13 @@ using System.Linq;
 using GOBCommon;
 using GOBCrypto;
 using System.Text;
-
-using GOBCommon;
-
 using System.Security.Cryptography;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+
+using GOBCommon;
+using GOBBlockchain.Transaction;
 
 namespace GOBCmd
 {
@@ -67,13 +69,32 @@ namespace GOBCmd
             //Console.WriteLine(hash);
             //Console.WriteLine(hash.Length);
 
-            Dictionary<string, string> myDic = new Dictionary<string, string>();
-            myDic.Add("1", "one");
-            myDic.Add("2", "two");
-            string result = "";
-            myDic.TryGetValue("3", out result);
-            if (result == null) result = "Null";
-            Console.WriteLine(result);
+            //Dictionary<string, string> myDic = new Dictionary<string, string>();
+            //myDic.Add("1", "one");
+            //myDic.Add("2", "two");
+            //string result = "";
+            //myDic.TryGetValue("3", out result);
+            //if (result == null) result = "Null";
+            //Console.WriteLine(result);
+
+            //직렬화!!! 역직렬화!!! 퇴~~에쓰뜨~~!!!
+            byte[] objectByte;
+            using (MemoryStream st = new MemoryStream())
+            {
+                ITransaction seTransaction = new Transaction("ABC", "DEF", 1.0f, new List<TransactionInput>());
+                BinaryFormatter binFmt = new BinaryFormatter();
+                binFmt.Serialize(st, seTransaction);
+                objectByte = st.ToArray();
+            }
+
+            ITransaction deTransaction;
+            using (MemoryStream st = new MemoryStream(objectByte))
+            {
+                BinaryFormatter binFmt = new BinaryFormatter();
+                deTransaction = (ITransaction)binFmt.Deserialize(st);
+                Console.WriteLine(deTransaction.Sender + ", " + deTransaction.Reciepient + ", " + deTransaction.Value.ToString());
+            }
+            //직렬화!!! 역직렬화!!! 퇴~~에쓰뜨~~!!!
         }
     }
 }

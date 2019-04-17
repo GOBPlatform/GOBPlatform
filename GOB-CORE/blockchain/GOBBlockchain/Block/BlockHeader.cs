@@ -30,7 +30,7 @@ namespace GOBBlockchain.Block
 
         public string Sign { get; }
 
-        public byte[] toByteArray()
+        public byte[] ToByteArray()
         {
             using (MemoryStream st = new MemoryStream())
             using (BinaryWriter bw = new BinaryWriter(st))

@@ -6,6 +6,7 @@ using GOBCommon.Hellper;
 
 namespace GOBBlockchain.Transaction
 {
+    [Serializable]
     public class TransactionOutput
     {
         public string id;

@@ -4,6 +4,7 @@ using System.Text;
 
 namespace GOBBlockchain.Transaction
 {
+    [Serializable]
     public class TransactionInput
     {
         public string transactionOutputId;

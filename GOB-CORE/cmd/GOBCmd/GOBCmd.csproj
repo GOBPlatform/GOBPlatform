@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\blockchain\GOBBlockchain\GOBBlockchain.csproj" />
     <ProjectReference Include="..\..\common\GOBCommon\GOBCommon\GOBCommon.csproj" />
     <ProjectReference Include="..\..\crypto\GOBCrypto\GOBCrypto\GOBCrypto.csproj" />
   </ItemGroup>

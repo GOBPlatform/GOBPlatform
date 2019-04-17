@@ -10,6 +10,7 @@ using Org.BouncyCastle.Math;
 
 namespace GOBBlockchain.Transaction
 {
+    [Serializable]
     public class Transaction : ITransaction
     {
         private static int _sequence = 0;

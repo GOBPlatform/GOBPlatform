@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+/// <summary>
+/// https://github.com/cliftonm/MerkleTree/blob/master/MerkleTreeDemo/Demo.cs 참고
+/// </summary>
 namespace GOBMerkleTree
 {
     public class MerkleTree

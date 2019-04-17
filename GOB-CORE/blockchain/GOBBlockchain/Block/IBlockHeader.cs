@@ -31,6 +31,6 @@ namespace GOBBlockchain.Block
         /// </summary>
         string Sign { get; }
 
-        byte[] toByteArray();
+        byte[] ToByteArray();
     }
 }
