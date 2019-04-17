@@ -47,7 +47,7 @@ namespace GOBCommon.Hellper
         public static string StringHash(string value)
         {
             var bytes = Encoding.UTF8.GetBytes(value);
-            return BitConverter.ToString(Hash(bytes));
+            return BitConverter.ToString(Hash(bytes)).Replace("-", "");
         }
     }
 }

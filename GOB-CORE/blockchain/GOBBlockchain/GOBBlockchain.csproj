@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BouncyCastle" Version="1.8.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\common\GOBCommon\GOBCommon\GOBCommon.csproj" />
+    <ProjectReference Include="..\..\crypto\GOBCrypto\GOBCrypto\GOBCrypto.csproj" />
   </ItemGroup>
 
 </Project>

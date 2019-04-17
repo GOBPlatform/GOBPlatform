@@ -13,7 +13,7 @@ namespace GOBBlockchain.Block
         /// <summary>
         /// 블록의 길이
         /// </summary>
-        int BlockSize { get; }
+        int BlockSize { get; set; }
         /// <summary>
         /// 이전 블록의 해쉬값
         /// </summary>
@@ -30,5 +30,7 @@ namespace GOBBlockchain.Block
         /// Block 생성자의 공개키
         /// </summary>
         string Sign { get; }
+
+        byte[] toByteArray();
     }
 }

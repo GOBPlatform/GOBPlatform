@@ -125,6 +125,29 @@ namespace GOBCrypto
             return BitConverter.ToString(enc).Replace("-", "");
         }
 
+        public BigInteger[] GenerateSignature(string message, string privateKey)
+        {
+            BigInteger priv = new BigInteger(privateKey, 16);
+            X9ECParameters ec = SecNamedCurves.GetByName("secp256k1");
+            ECDomainParameters domainParams = new ECDomainParameters(ec.Curve, ec.G, ec.N, ec.H);
+            ECPrivateKeyParameters privateKeyParams = new ECPrivateKeyParameters(priv, domainParams);
+
+            ECDsaSigner privSigner = new ECDsaSigner();
+            privSigner.Init(true, privateKeyParams);
+
+            var msg = Encoding.ASCII.GetBytes(message);
+            BigInteger[] signature = privSigner.GenerateSignature(msg);
+
+            return signature;
+        }
+
+        /// <summary>
+        /// PrivateKey와 PublicKey로 Message를 암호화 했다 풀었을때 풀리면 True, 안풀리면 False
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="_privateKey"></param>
+        /// <param name="_publicKey"></param>
+        /// <returns></returns>
         public bool VerifySignature(string message, string _privateKey, string _publicKey)
         {
             string privateKey = _privateKey;
@@ -132,6 +155,7 @@ namespace GOBCrypto
             bool verified = false;
             try
             {
+                //TODO : GenerateSignature 함수에서 아래 로직을 C&P 했음. 정리 요망.
                 BigInteger priv = new BigInteger(privateKey, 16);
                 X9ECParameters ec = SecNamedCurves.GetByName("secp256k1");
                 ECDomainParameters domainParams = new ECDomainParameters(ec.Curve, ec.G, ec.N, ec.H);
@@ -146,6 +170,7 @@ namespace GOBCrypto
 
                 var msg = Encoding.ASCII.GetBytes(message);
                 BigInteger[] signature = privSigner.GenerateSignature(msg);
+
                 BigInteger r = signature[0];
                 BigInteger s = signature[1];
 
@@ -158,6 +183,37 @@ namespace GOBCrypto
                 Console.WriteLine("VerifySignature Exception : " + e.Message);
             }
 
+            return verified;
+        }
+
+        /// <summary>
+        /// privatekey로 만들었을법한 signature를 가지고 message를 publickey로 풀어봄.
+        /// </summary>
+        /// <param name="publicKey"></param>
+        /// <param name="message"></param>
+        /// <param name="signature"></param>
+        /// <returns></returns>
+        public bool VerifySignature(string publicKey, string message,  BigInteger[] signature)
+        {
+            bool verified = false;
+            try
+            {
+                X9ECParameters ec = SecNamedCurves.GetByName("secp256k1");
+                ECDomainParameters domainParams = new ECDomainParameters(ec.Curve, ec.G, ec.N, ec.H);
+                BigInteger pub = new BigInteger(publicKey, 16);
+                Org.BouncyCastle.Math.EC.ECPoint q = domainParams.Curve.DecodePoint(pub.ToByteArray());
+                ECPublicKeyParameters publicKeyParams = new ECPublicKeyParameters(q, domainParams);
+                ECDsaSigner pubSigner = new ECDsaSigner();
+                pubSigner.Init(false, publicKeyParams);
+                var msg = Encoding.ASCII.GetBytes(message);
+                BigInteger r = signature[0];
+                BigInteger s = signature[1];
+                verified = pubSigner.VerifySignature(msg, r, s);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("VerifySignature Exception : " + e.Message);
+            }
             return verified;
         }
 

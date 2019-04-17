@@ -3812,7 +3812,9 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.2": [
+      "BouncyCastle >= 1.8.5",
       "GOBCommon >= 1.0.0",
+      "GOBCrypto >= 1.0.0",
       "Microsoft.NETCore.App >= 2.2.0"
     ]
   },
@@ -3848,6 +3850,9 @@
           "projectReferences": {
             "D:\\Project\\GOBPlatform\\GOB-CORE\\common\\GOBCommon\\GOBCommon\\GOBCommon.csproj": {
               "projectPath": "D:\\Project\\GOBPlatform\\GOB-CORE\\common\\GOBCommon\\GOBCommon\\GOBCommon.csproj"
+            },
+            "D:\\Project\\GOBPlatform\\GOB-CORE\\crypto\\GOBCrypto\\GOBCrypto\\GOBCrypto.csproj": {
+              "projectPath": "D:\\Project\\GOBPlatform\\GOB-CORE\\crypto\\GOBCrypto\\GOBCrypto\\GOBCrypto.csproj"
             }
           }
         }
@@ -3861,6 +3866,10 @@
     "frameworks": {
       "netcoreapp2.2": {
         "dependencies": {
+          "BouncyCastle": {
+            "target": "Package",
+            "version": "[1.8.5, )"
+          },
           "Microsoft.NETCore.App": {
             "suppressParent": "All",
             "target": "Package",

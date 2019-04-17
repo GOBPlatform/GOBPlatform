@@ -6,13 +6,22 @@ using GOBCommon.Hellper;
 
 namespace GOBBlockchain.Transaction
 {
-    class TransactionOutput
+    public class TransactionOutput
     {
         public string id;
+        /// <summary>
+        /// 수신자의 PublicKey
+        /// </summary>
         public string reciepient;
         public float value;
         public string parentTransactionId;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reciepient">수신자 PublicKey 값</param>
+        /// <param name="value"></param>
+        /// <param name="parentTransactionId"></param>
         public TransactionOutput(string reciepient, float value, string parentTransactionId)
         {
             this.reciepient = reciepient;

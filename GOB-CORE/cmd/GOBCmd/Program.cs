@@ -7,6 +7,7 @@ using System.Text;
 using GOBCommon;
 
 using System.Security.Cryptography;
+using System.Collections.Generic;
 
 namespace GOBCmd
 {
@@ -60,11 +61,19 @@ namespace GOBCmd
             //Console.WriteLine(Common.GetNonce());
             //==== Nonce 값====
 
-            SHA256 sha = new SHA256Managed();
-            string test = "Hello world~!";
-            string hash = GOBCommon.Hellper.ExtSHA256.StringHash(test).Replace("-", "");
-            Console.WriteLine(hash);
-            Console.WriteLine(hash.Length);
+            //SHA256 sha = new SHA256Managed();
+            //string test = "Hello world~!";
+            //string hash = GOBCommon.Hellper.ExtSHA256.StringHash(test).Replace("-", "");
+            //Console.WriteLine(hash);
+            //Console.WriteLine(hash.Length);
+
+            Dictionary<string, string> myDic = new Dictionary<string, string>();
+            myDic.Add("1", "one");
+            myDic.Add("2", "two");
+            string result = "";
+            myDic.TryGetValue("3", out result);
+            if (result == null) result = "Null";
+            Console.WriteLine(result);
         }
     }
 }

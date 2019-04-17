@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GOBBlockchain.Transaction
 {
-    class TransactionInput
+    public class TransactionInput
     {
         public string transactionOutputId;
         public TransactionOutput UTOX;
