@@ -12,6 +12,7 @@ using Org.BouncyCastle.Crypto.Signers;
 using System.Text;
 using Base58Check;
 using System.Security.Cryptography;
+using System.IO;
 
 namespace GOBCrypto
 {
@@ -250,6 +251,53 @@ namespace GOBCrypto
             byte[] hash160 = new byte[20];
             Array.Copy(addrBytes, 1, hash160, 0, 20);
             return hash160;
+        }
+
+        public bool SavePrivateKey(string path, string password)
+        {
+            bool isSave = false;
+            try
+            {
+                using (StreamWriter wr = new StreamWriter(path))
+                {
+                    wr.WriteLine(Encrypt(password, _privateKey));
+                }
+                isSave = true;
+            }catch(Exception e)
+            {
+
+            }
+            return isSave;
+        }
+
+        public string LoadPrivateKey(string path, string password)
+        {
+            string line = "";
+            try
+            {
+                using (StreamReader rdr = new StreamReader(path))
+                {
+                    while ((line = rdr.ReadLine()) != null)
+                    {
+                    }
+                }
+            }catch(Exception e)
+            {
+
+            }
+            return Decrypt(password, line);
+        }
+
+        public string Encrypt(string key, string message)
+        {
+            ARIACipher cipher = new ARIACipher(key);
+            return cipher.EncryptString(message, Encoding.UTF8);
+        }
+
+        public string Decrypt(string key, string encryptMessage)
+        {
+            ARIACipher cipher = new ARIACipher(key);
+            return cipher.DecryptString(encryptMessage, Encoding.UTF8);
         }
     }
 
