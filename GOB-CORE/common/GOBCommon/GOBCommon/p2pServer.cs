@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace GOBCommon
 {
@@ -73,7 +74,7 @@ namespace GOBCommon
             //startTime time.Time      //Request start time
             Dictionary<UInt64, int> failedNodes;
             int totalFailed;
-            //lock        sync.RWMutex
+            Mutex Lock;
         }
 
         /// <summary>
@@ -102,7 +103,7 @@ namespace GOBCommon
             bool saveBlockLock;
             //exitCh         chan interface{}
             //Ledger ledger;
-            //lock           sync.RWMutex
+            Mutex Lock;
             Dictionary<UInt64, NodeWeight> nodeWeights;
         }
         #endregion
@@ -134,7 +135,6 @@ namespace GOBCommon
 
             //GetNeighbors() []*peer.Peer
             //GetNeighborAddrs() []common.PeerAddr
-
             UInt32 GetConnectionCnt();
             NbrPeers GetNp();
             //GetPeer(uint64) *peer.Peer
@@ -178,7 +178,7 @@ namespace GOBCommon
             //ConnectingNodes
             //PeerAddrMap
             NbrPeers Np;
-            //connectLock   sync.Mutex
+            Mutex connectLock;
             InConnectionRecord inConnRecord;
             OutConnectionRecord outConnRecord;
             string OwnAddress;
@@ -235,7 +235,7 @@ namespace GOBCommon
             UInt32 consState;
             UInt64 txnCnt;
             UInt64 rxTxnCnt;
-            //connLock sync.RWMutex
+            Mutex connLock;
         }
 
         /// <summary>
@@ -605,8 +605,8 @@ namespace GOBCommon
         class HeadersReq
         {
             uint Len;
-            //HashStart common.Uint256
-            //HashEnd   common.Uint256
+            uint256 HashStart;
+            uint256 HashEnd; 
         }
         #endregion
 
@@ -614,7 +614,7 @@ namespace GOBCommon
         class Block
         {
             //Blk        *ct.Block
-            //MerkleRoot common.Uint256
+            uint256 MerkleRoot;
         }
         #endregion
 
@@ -622,8 +622,8 @@ namespace GOBCommon
         class BlocksReq
         {
             uint HeaderHashCount;
-            //HashStart comm.Uint256
-            //HashStop comm.Uint256
+            uint256 HashStart;
+            uint256 HashStop;
         }
         #endregion
 
@@ -631,7 +631,7 @@ namespace GOBCommon
         class ConsensusPayload
         {
             UInt32 Version;
-            //PrevHash common.Uint256
+            uint256 PrevHash;
             UInt32 Height;
             UInt16 BookkeeperIndex;
             UInt32 Timestamp;
@@ -639,7 +639,7 @@ namespace GOBCommon
             //Owner keypair.PublicKey
             byte[] Signature;
             UInt64 PeerId;
-            //hash common.Uint256
+            uint256 hash;
         }
         #endregion
 
@@ -655,7 +655,7 @@ namespace GOBCommon
         class DataReq
         {
             //DataType common.InventoryType
-            //Hash     common.Uint256
+            uint256 Hash;
         }
         #endregion
 
@@ -670,7 +670,7 @@ namespace GOBCommon
         class InvPayload
         {
             //InvType common.InventoryType
-            //Blk     []common.Uint256
+            uint256[] Blk;
         }
         #endregion
 
@@ -702,7 +702,7 @@ namespace GOBCommon
         #region p2pserver/message/types/notfound.go
         class NotFound
         {
-            //Hash common.Uint256
+            uint256 Hash;
         }
         #endregion
 
