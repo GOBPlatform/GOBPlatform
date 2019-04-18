@@ -1,26 +1,24 @@
-﻿using System;
-using System.Linq;
+﻿using Base58Check;
+using Org.BouncyCastle.Asn1.Sec;
+using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
-using Org.BouncyCastle.Security;
 using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Asn1.X9;
-using Org.BouncyCastle.Asn1.Sec;
+using Org.BouncyCastle.Crypto.Signers;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Math.EC;
-using Org.BouncyCastle.Crypto.Signers;
-using System.Text;
-using Base58Check;
-using System.Security.Cryptography;
+using Org.BouncyCastle.Security;
+using System;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace GOBCrypto
 {
     public class Crypto
     {
         private static Crypto _instance = null;
-        private string _privateKey;
-        private string _publicKey;
 
         private X9ECParameters _ecParams = null;
         private ECDomainParameters _domainParams = null;
@@ -114,6 +112,7 @@ namespace GOBCrypto
                 Array.Copy(privBytes, 0, temp, 32 - privBytes.Length, privBytes.Length);
                 privBytes = temp;
             }
+
             return BitConverter.ToString(privBytes).Replace("-", "");
         }
 
@@ -260,7 +259,7 @@ namespace GOBCrypto
             {
                 using (StreamWriter wr = new StreamWriter(path))
                 {
-                    wr.WriteLine(Encrypt(password, _privateKey));
+                    wr.WriteLine(Encrypt(password, PrivateKey));
                 }
                 isSave = true;
             }catch(Exception e)

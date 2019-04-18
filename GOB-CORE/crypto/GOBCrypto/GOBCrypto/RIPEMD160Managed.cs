@@ -1,19 +1,5 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
-// Contributed to .NET Foundation by Darren R. Starr - Conscia Norway AS
-//
-// Awaiting permission from Antoon Bosselaers - Katholieke Universiteit Leuven 
-//   for permission/clarification regarding the use the original code from which
-//   this C# port is created.
-//  Until he clarifies the license status of his code (referenced at
-//   https://homes.esat.kuleuven.be/~bosselae/ripemd160.html) the legal license
-//   status of this code is not clear. 
-
 using System;
 using System.Linq;
-using System.Text;
 
 namespace GOBCrypto
 {
@@ -33,7 +19,6 @@ namespace GOBCrypto
             return (value << bits) | (value >> (32 - bits));
         }
 
-        /* the five basic functions F(), G() and H() */
         static UInt32 F(UInt32 x, UInt32 y, UInt32 z)
         {
             return x ^ y ^ z;
@@ -58,8 +43,6 @@ namespace GOBCrypto
         {
             return x ^ (y | ~z);
         }
-
-        /* the ten basic operations FF() through III() */
 
         static void FF(ref UInt32 a, UInt32 b, ref UInt32 c, UInt32 d, UInt32 e, UInt32 x, int s)
         {
@@ -133,7 +116,6 @@ namespace GOBCrypto
             c = RotateLeft(c, 10);
         }
 
-        /// initializes MDbuffer to "magic constants"
         static public void MDinit(ref UInt32[] MDbuf)
         {
             MDbuf[0] = (UInt32)0x67452301;
@@ -143,8 +125,6 @@ namespace GOBCrypto
             MDbuf[4] = (UInt32)0xc3d2e1f0;
         }
 
-        ///  the compression function.
-        ///  transforms MDbuf using message bytes X[0] through X[15]
         static public void compress(ref UInt32[] MDbuf, UInt32[] X)
         {
             UInt32 aa = MDbuf[0];
@@ -158,7 +138,6 @@ namespace GOBCrypto
             UInt32 ddd = MDbuf[3];
             UInt32 eee = MDbuf[4];
 
-            /* round 1 */
             FF(ref aa, bb, ref cc, dd, ee, X[0], 11);
             FF(ref ee, aa, ref bb, cc, dd, X[1], 14);
             FF(ref dd, ee, ref aa, bb, cc, X[2], 15);
@@ -176,7 +155,6 @@ namespace GOBCrypto
             FF(ref bb, cc, ref dd, ee, aa, X[14], 9);
             FF(ref aa, bb, ref cc, dd, ee, X[15], 8);
 
-            /* round 2 */
             GG(ref ee, aa, ref bb, cc, dd, X[7], 7);
             GG(ref dd, ee, ref aa, bb, cc, X[4], 6);
             GG(ref cc, dd, ref ee, aa, bb, X[13], 8);
@@ -194,7 +172,6 @@ namespace GOBCrypto
             GG(ref aa, bb, ref cc, dd, ee, X[11], 13);
             GG(ref ee, aa, ref bb, cc, dd, X[8], 12);
 
-            /* round 3 */
             HH(ref dd, ee, ref aa, bb, cc, X[3], 11);
             HH(ref cc, dd, ref ee, aa, bb, X[10], 13);
             HH(ref bb, cc, ref dd, ee, aa, X[14], 6);
@@ -212,7 +189,6 @@ namespace GOBCrypto
             HH(ref ee, aa, ref bb, cc, dd, X[5], 7);
             HH(ref dd, ee, ref aa, bb, cc, X[12], 5);
 
-            /* round 4 */
             II(ref cc, dd, ref ee, aa, bb, X[1], 11);
             II(ref bb, cc, ref dd, ee, aa, X[9], 12);
             II(ref aa, bb, ref cc, dd, ee, X[11], 14);
@@ -230,7 +206,6 @@ namespace GOBCrypto
             II(ref dd, ee, ref aa, bb, cc, X[6], 5);
             II(ref cc, dd, ref ee, aa, bb, X[2], 12);
 
-            /* round 5 */
             JJ(ref bb, cc, ref dd, ee, aa, X[4], 9);
             JJ(ref aa, bb, ref cc, dd, ee, X[0], 15);
             JJ(ref ee, aa, ref bb, cc, dd, X[5], 5);
@@ -248,7 +223,6 @@ namespace GOBCrypto
             JJ(ref cc, dd, ref ee, aa, bb, X[15], 5);
             JJ(ref bb, cc, ref dd, ee, aa, X[13], 6);
 
-            /* parallel round 1 */
             JJJ(ref aaa, bbb, ref ccc, ddd, eee, X[5], 8);
             JJJ(ref eee, aaa, ref bbb, ccc, ddd, X[14], 9);
             JJJ(ref ddd, eee, ref aaa, bbb, ccc, X[7], 9);
@@ -266,7 +240,6 @@ namespace GOBCrypto
             JJJ(ref bbb, ccc, ref ddd, eee, aaa, X[3], 12);
             JJJ(ref aaa, bbb, ref ccc, ddd, eee, X[12], 6);
 
-            /* parallel round 2 */
             III(ref eee, aaa, ref bbb, ccc, ddd, X[6], 9);
             III(ref ddd, eee, ref aaa, bbb, ccc, X[11], 13);
             III(ref ccc, ddd, ref eee, aaa, bbb, X[3], 15);
@@ -284,7 +257,6 @@ namespace GOBCrypto
             III(ref aaa, bbb, ref ccc, ddd, eee, X[1], 13);
             III(ref eee, aaa, ref bbb, ccc, ddd, X[2], 11);
 
-            /* parallel round 3 */
             HHH(ref ddd, eee, ref aaa, bbb, ccc, X[15], 9);
             HHH(ref ccc, ddd, ref eee, aaa, bbb, X[5], 7);
             HHH(ref bbb, ccc, ref ddd, eee, aaa, X[1], 15);
@@ -302,7 +274,6 @@ namespace GOBCrypto
             HHH(ref eee, aaa, ref bbb, ccc, ddd, X[4], 7);
             HHH(ref ddd, eee, ref aaa, bbb, ccc, X[13], 5);
 
-            /* parallel round 4 */
             GGG(ref ccc, ddd, ref eee, aaa, bbb, X[8], 15);
             GGG(ref bbb, ccc, ref ddd, eee, aaa, X[6], 5);
             GGG(ref aaa, bbb, ref ccc, ddd, eee, X[4], 8);
@@ -320,7 +291,6 @@ namespace GOBCrypto
             GGG(ref ddd, eee, ref aaa, bbb, ccc, X[10], 15);
             GGG(ref ccc, ddd, ref eee, aaa, bbb, X[14], 8);
 
-            /* parallel round 5 */
             FFF(ref bbb, ccc, ref ddd, eee, aaa, X[12], 8);
             FFF(ref aaa, bbb, ref ccc, ddd, eee, X[15], 5);
             FFF(ref eee, aaa, ref bbb, ccc, ddd, X[10], 12);
@@ -338,8 +308,7 @@ namespace GOBCrypto
             FFF(ref ccc, ddd, ref eee, aaa, bbb, X[9], 11);
             FFF(ref bbb, ccc, ref ddd, eee, aaa, X[11], 11);
 
-            // combine results */
-            ddd += cc + MDbuf[1];               /* final result for MDbuf[0] */
+            ddd += cc + MDbuf[1];
             MDbuf[1] = MDbuf[2] + dd + eee;
             MDbuf[2] = MDbuf[3] + ee + aaa;
             MDbuf[3] = MDbuf[4] + aa + bbb;
@@ -347,41 +316,30 @@ namespace GOBCrypto
             MDbuf[0] = ddd;
         }
 
-        ///  puts bytes from strptr into X and pad out; appends length 
-        ///  and finally, compresses the last block(s)
-        ///  note: length in bits == 8 * (lswlen + 2^32 mswlen).
-        ///  note: there are (lswlen mod 64) bytes left in strptr.
         static public void MDfinish(ref UInt32[] MDbuf, byte[] strptr, long index, UInt32 lswlen, UInt32 mswlen)
         {
-            //UInt32 i;                                 /* counter       */
-            var X = Enumerable.Repeat((UInt32)0, 16).ToArray();                             /* message words */
+            var X = Enumerable.Repeat((UInt32)0, 16).ToArray();
 
-
-            /* put bytes from strptr into X */
             for (var i = 0; i < (lswlen & 63); i++)
             {
-                /* byte i goes into word X[i div 4] at pos.  8*(i mod 4)  */
                 X[i >> 2] ^= Convert.ToUInt32(strptr[i + index]) << (8 * (i & 3));
             }
 
-            /* append the bit m_n == 1 */
             X[(lswlen >> 2) & 15] ^= (UInt32)1 << Convert.ToInt32(8 * (lswlen & 3) + 7);
 
             if ((lswlen & 63) > 55)
             {
-                /* length goes to next block */
                 compress(ref MDbuf, X);
                 X = Enumerable.Repeat((UInt32)0, 16).ToArray();
             }
 
-            /* append length in bits*/
             X[14] = lswlen << 3;
             X[15] = (lswlen >> 29) | (mswlen << 3);
             compress(ref MDbuf, X);
         }
         static int RMDsize = 160;
         UInt32 [] MDbuf = new UInt32 [RMDsize / 32];
-        UInt32 [] X = new UInt32[16];               /* current 16-word chunk        */
+        UInt32 [] X = new UInt32[16];
         byte [] UnhashedBuffer = new byte[64];
         int UnhashedBufferLength = 0;
         long HashedLength = 0;
@@ -448,9 +406,9 @@ namespace GOBCrypto
 
             for (var i = 0; i < RMDsize / 8; i += 4)
             {
-                result[i] = Convert.ToByte(MDbuf[i >> 2] & 0xFF);         /* implicit cast to byte  */
-                result[i + 1] = Convert.ToByte((MDbuf[i >> 2] >> 8) & 0xFF);  /*  extracts the 8 least  */
-                result[i + 2] = Convert.ToByte((MDbuf[i >> 2] >> 16) & 0xFF);  /*  significant bits.     */
+                result[i] = Convert.ToByte(MDbuf[i >> 2] & 0xFF);
+                result[i + 1] = Convert.ToByte((MDbuf[i >> 2] >> 8) & 0xFF);
+                result[i + 2] = Convert.ToByte((MDbuf[i >> 2] >> 16) & 0xFF);
                 result[i + 3] = Convert.ToByte((MDbuf[i >> 2] >> 24) & 0xFF);
             }
 
