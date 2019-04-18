@@ -96,6 +96,7 @@ namespace GOBCmd
             //}
 
             objectByte = GOBCommon.Common.GobSerialize(seTransaction);
+            Console.WriteLine(objectByte.Length);
             deTransaction = Common.GobDeserialize<ITransaction>(objectByte);
             Console.WriteLine(deTransaction.Sender + ", " + deTransaction.Reciepient + ", " + deTransaction.Value.ToString());
             //직렬화!!! 역직렬화!!! 퇴~~에쓰뜨~~!!!

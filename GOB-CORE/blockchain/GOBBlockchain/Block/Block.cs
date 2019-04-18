@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using GOBBlockchain.Transaction;
+using GOBCommon;
+using GOBCommon.Hellper;
+using GOBCrypto;
 
 namespace GOBBlockchain.Block
 {
@@ -36,11 +40,22 @@ namespace GOBBlockchain.Block
             return true;
         }
 
-        public string calcuateHash()
+        public byte[] GenerateHash()
         {
-            byte[] hdArr = BlockHeader.ToByteArray();
+            using (MemoryStream st = new MemoryStream())
+            using (BinaryWriter bw = new BinaryWriter(st))
+            {
+                bw.Write(BlockHeader.ToByteArray());
+                if(Transactions != null)
+                {
+                    foreach (var t in Transactions)
+                    {
+                        bw.Write(Common.GobSerialize(t));
+                    }
+                }
 
-            return "";
+                return ExtSHA256.Hash(st.ToArray());
+            }
         }
 
         #endregion

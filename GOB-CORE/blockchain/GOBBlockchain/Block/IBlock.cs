@@ -11,7 +11,7 @@ namespace GOBBlockchain.Block
         IBlockHeader BlockHeader { get; }
         List<ITransaction> Transactions { get; set; }
 
-        string calcuateHash();
+        byte[] GenerateHash();
         bool AddTransaction(ITransaction transaction);
     }
 }

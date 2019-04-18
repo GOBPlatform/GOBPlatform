@@ -260,7 +260,7 @@ namespace GOBCrypto
             {
                 using (StreamWriter wr = new StreamWriter(path))
                 {
-                    wr.WriteLine(Encrypt(password, _privateKey));
+                    wr.WriteLine(Encrypt(password, PrivateKey));
                 }
                 isSave = true;
             }catch(Exception e)
